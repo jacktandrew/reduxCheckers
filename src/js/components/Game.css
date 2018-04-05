@@ -1,0 +1,16 @@
+.game, .board {
+  height: 100%;
+}
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.square .id {
+  position: absolute;
+}
+
+.square.highlighted {
+  box-shadow: yellow 0 0 0 7px inset;
+}

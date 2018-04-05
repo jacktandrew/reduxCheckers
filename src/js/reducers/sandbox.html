@@ -1,0 +1,70 @@
+<script>
+const makeBoard = (size = 8) => {
+    const half = size / 2,
+      noMansLand = [half - 1, half];
+
+    return Array(size).fill('').map((_, row) => {
+      return Array(size).fill('').map((_, column) => {
+        const color = (column % 2 === row % 2) ? 'buff' : 'green',
+          onBase = noMansLand.includes(row) === false,
+          team = (row < half) ? 'black' : 'white',
+          man = (onBase) ? { team } : null,
+          number = Math.ceil((column + 1) / 2) + (row * half);
+
+        return (color === 'green')
+          ? { color, number, man }
+          : { color }
+      });
+    });
+  };
+
+const highlight = manEl => {
+  unhighlight()
+  manEl.classList.add('selected')
+}
+
+const unhighlight = () => {
+  const target = document.querySelector('.board .man.selected')
+  if (target) target.classList.remove('selected')
+}
+
+const handlePickUp = (state, payload) => {
+  if (state.direction === payload.direction) {
+    highlight(payload.el)
+    return { ...state, man: payload }
+  } else {
+    return state
+  }
+}
+
+const moveMan = (el, column, row) => {
+  const query = `.square[data-column="${column}"][data-row="${row}"]`
+  el.parentElement.removeChild(el)
+  document.querySelector(query).appendChild(el)
+}
+
+const handlePutDown = (state, action) => {
+  const distance = {
+      column: action.column - state.man.column,
+      row: action.row - state.man.row
+    },
+    isBlackSquare = action.row % 2 !== action.column % 2,
+    manIsSelected = state.man instanceof Object,
+    advancesOneRow = distance.row === state.man.direction,
+    advancesOneColumn = Math.abs(distance.column) === 1,
+    obj = { isBlackSquare, manIsSelected, advancesOneRow, advancesOneColumn };
+
+    if (isBlackSquare, manIsSelected, advancesOneRow, advancesOneColumn) {
+      unhighlight();
+      moveMan(state.man.el, action.column, action.row);
+      return Object.assign({}, state, {
+        man: undefined,
+        direction: state.man.direction * -1,
+      })
+    }
+
+  return state;
+}
+
+console.log(makeBoard());
+</script>

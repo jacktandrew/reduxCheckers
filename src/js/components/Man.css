@@ -1,0 +1,18 @@
+.man {
+  width: 80%;
+  height: 80%;
+  margin: 10%;
+  border-radius: 50%;
+  border: 1px solid gray;
+}
+
+.man.selected {
+  box-shadow: yellow 0 0 11px 7px;
+  animation: pulsate 2s ease-out infinite;
+}
+
+@-webkit-keyframes pulsate {
+    0%   { box-shadow: 0 0 7px 5px yellow; }
+    50%  { box-shadow: 0 0 11px 7px yellow; }
+    100% { box-shadow: 0 0 7px 5px yellow; }
+}
