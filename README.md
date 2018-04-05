@@ -1,5 +1,5 @@
-# webpack-4-quickstart
-> Webpack 4 tutorial: All You Need to Know, from 0 Conf to Production Mode
+# Checkers
+> A childhood game in functional programming style using React, Redux and Ramda
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
 
@@ -11,7 +11,7 @@ npm i && npm run start
 
 ## Meta
 
-Valentino Gagliardi - [valentinog.com](https://www.valentinog.com) - valentino@valentinog.com
+Jack Andrew - [jacktandrew.github.io](http://jacktandrew.github.io) - jacktandrew@gmail.com
 
 ## License
 
