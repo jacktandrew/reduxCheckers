@@ -16,7 +16,7 @@ const createMan = (size, i) => {
   if (i >= (half + 1) * size)
     return {
       color: 'white',
-      moves: [[1,-1],[-1,-1]],
+      moves: [[[-1,-1]],[[1,-1]]],
       jumps: [
         [[1,-1],[2,-2]],
         [[-1,-1],[-2,-2]]
@@ -43,5 +43,7 @@ const createBoard = (size = 8) => {
       : { ...acc, [key]: { ...sq, ...createGreenSquare(size, i) } }
   }, {})
 }
+
+window.createBoard = createBoard
 
 export default createBoard

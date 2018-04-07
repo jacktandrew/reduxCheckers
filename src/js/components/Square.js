@@ -32,8 +32,8 @@ class Square extends Component {
     return (
       <section className={className}
         data-key={key}
-        data-column={this.props.column}
-        data-row={this.props.row}
+        // data-column={this.props.column}
+        // data-row={this.props.row}
         data-id={this.props.id}
         style={style}
         onClick={this.handleClick}>

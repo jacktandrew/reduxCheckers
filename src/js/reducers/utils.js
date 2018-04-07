@@ -21,7 +21,17 @@ export const getJumps = R.curry((board, sq) => R.compose(
 )(sq))
 
 export const getMoves = R.curry((board, sq) => R.compose(
-  R.map(R.last),
+  R.filter(R.compose(R.is(Object), R.last)),
   pathToSquares(board),
   findPaths('moves')
 )(sq))
+
+export const getNeighbors = R.curry((board, sq) => R.compose(
+  R.map(R.last),
+  getMoves(board)
+)(sq))
+
+export const log = R.curry(arg => {
+  console.log(arg)
+  return arg
+})

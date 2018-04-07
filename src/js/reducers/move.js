@@ -1,14 +1,16 @@
 const R = require('ramda')
-import { getMoves, getJumps } from './utils'
+import { getNeighbors, getJumps } from './utils'
 
 const handle = (state, key) => {
   const board = state.board,
     src = state.active,
     dst = board[key],
-    moves = getMoves(board, src),
+    neighbors = getNeighbors(board, src),
     notOccupied = R.propEq('man', undefined),
-    inRange = R.contains(R.__, moves),
+    inRange = R.contains(R.__, neighbors),
     isValid = R.both(notOccupied, inRange)
+
+  console.log('isValid', neighbors, key)
 
   return isValid(dst)
     ? finish(state, key)
@@ -17,29 +19,29 @@ const handle = (state, key) => {
 
 const finish = (state, dst) => {
   const src = state.active.key,
-    man = shouldHeBeKing(state, dst)
-
-  const board = R.compose(
+    man = shouldHeBeKing(state, dst),
+    board = R.compose(
       R.assocPath([dst, 'man'], man),
       R.dissocPath([src, 'man']),
       R.dissocPath([src, 'selected'])
-    )(state.board)
+    )(state.board),
+    color = (state.color === 'black') ? 'white' : 'black'
 
-  const color = (state.color === 'black') ? 'white' : 'black',
-
-    newState = { board, color }
-
-  return newState
+  return { board, color }
 }
 
 const shouldHeBeKing = (state, dst) => {
   const size = Math.sqrt(Object.keys(state.board).length),
     kingRow = (state.active.man.color === 'black') ? size - 1 : 0,
     targetRow = state.board[dst].row,
-    allDirections = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
+    allMoves = [[-1, -1], [1, -1], [1, 1], [-1, 1]],
+    allJumps = [
+      [[-1,-1],[-2,-2]], [[1,-1],[2,-2]], [[-1,1],[-2,2]], [[1,1],[2,2]]
+    ],
+    makeKing = R.compose(R.assoc('moves', allMoves), R.assoc('jumps', allJumps))
 
   return (targetRow === kingRow)
-    ? R.assoc('directions', allDirections, state.active.man)
+    ? makeKing(state.active.man)
     : state.active.man
 }
 

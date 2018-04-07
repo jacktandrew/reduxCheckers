@@ -6,7 +6,6 @@ const get = state => {
 
   return R.compose(
     R.filter(groom(state.color)),
-    R.unnest,
     R.map(getJumps(state.board)),
     R.filter(sq => sq.man && sq.man.color === state.color)
   )(list)

@@ -12,6 +12,8 @@ const play = state => {
     active = state.board[src],
     newState = { ...state, color: 'white', active }
 
+  console.log('paths', paths)
+
   return (jumps.length)
     ? jump.kill(newState, jumps, dst)
     : finish(state, src, dst)
@@ -29,13 +31,16 @@ const finish = (state, src, dst) => {
 
 const getAllMoves = state => {
   const list = Object.keys(state.board).map(k => state.board[k]),
-    noMan = man => man === undefined
-
-  return R.compose(
-    R.filter(R.compose(R.propSatisfies(noMan, 'man'), R.last)),
-    R.map(getMoves(state.board)),
-    R.filter(sq => sq.man && sq.man.color === state.color)
-  )(list)
+    hasNoMan = R.compose(R.isNil, R.prop('man'))
+    return R.compose(
+      R.filter(R.compose(hasNoMan, R.last)),
+      R.unnest,
+      R.map(getMoves(state.board)),
+      R.filter(R.pathEq(['man', 'color'], state.color))
+    )(list)
 }
 
-export default { play }
+export default {
+  play,
+  getAllMoves
+}

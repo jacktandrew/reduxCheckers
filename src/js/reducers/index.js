@@ -28,15 +28,15 @@ const handlePickUp = (state, key) => {
 const handlePutDown = (state, key) => {
   if (!state.active) return state
 
-  return move.handle(state, key)
+  const state2 = move.handle(state, key)
   // const jumps = jump.get(state),
   //   state2 = (jumps.length)
   //     ? jump.kill(state, jumps, key)
   //     : move.handle(state, key)
 
-  // return (state2.color === 'white')
-  //   ? ai.play(state2)
-  //   : state2
+  return (state2.color === 'white')
+    ? ai.play(state2)
+    : state2
 }
 
 const rootReducer = (state = initialState, action) => {
