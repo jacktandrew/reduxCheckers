@@ -1,7 +1,7 @@
 {
-  "name": "webpack-4-quickstart",
+  "name": "Checkers",
   "version": "1.0.0",
-  "description": "> Webpack 4 tutorial: All You Need to Know, from 0 Conf to Production Mode",
+  "description": "> Classic childhood game",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
