@@ -10,7 +10,7 @@ window.R = R
 
 const initialState = {
   color: 'black',
-  board: createBoard(6)
+  board: createBoard(8)
 }
 
 const handlePickUp = (state, key) => {
