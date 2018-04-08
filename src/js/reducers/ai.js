@@ -12,8 +12,6 @@ const play = state => {
     active = state.board[src],
     newState = { ...state, color: 'white', active }
 
-  console.log('paths', paths)
-
   return (jumps.length)
     ? jump.kill(newState, jumps, dst)
     : finish(state, src, dst)

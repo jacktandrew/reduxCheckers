@@ -1,6 +1,6 @@
 const R = require('ramda')
 
-const deepMap = R.curry((fn, data) => R.map(R.map(fn), data))
+export const deepMap = R.curry((fn, data) => R.map(R.map(fn), data))
 
 const findPaths = R.curry((kind, sq) => {
   const mapper = c => R.zipWith(R.add, sq.coords, c),
@@ -27,11 +27,8 @@ export const getMoves = R.curry((board, sq) => R.compose(
 )(sq))
 
 export const getNeighbors = R.curry((board, sq) => R.compose(
-  R.map(R.last),
+  R.map(R.compose(R.prop('id'), R.last)),
   getMoves(board)
 )(sq))
 
-export const log = R.curry(arg => {
-  console.log(arg)
-  return arg
-})
+

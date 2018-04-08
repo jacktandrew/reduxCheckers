@@ -1,20 +1,29 @@
 const R = require('ramda')
-import { getNeighbors, getJumps } from './utils'
+import { deepFilter, getMoves } from './utils'
+import jump from './jump'
+
+const getTruePath = (moves, dst) => {
+  return R.compose(
+    R.unnest,
+    R.filter(R.compose(R.eqProps('id', dst), R.last))
+  )(moves)
+}
 
 const handle = (state, key) => {
-  const board = state.board,
-    src = state.active,
-    dst = board[key],
-    neighbors = getNeighbors(board, src),
-    notOccupied = R.propEq('man', undefined),
-    inRange = R.contains(R.__, neighbors),
-    isValid = R.both(notOccupied, inRange)
+  const dst = state.board[key],
+    jumps = jump.get(state),
+    moves = (jumps.length) ? jumps : getMoves(state.board, state.active),
+    unoccupied = R.propEq('man', undefined, dst),
+    truePath = getTruePath(moves, dst)
 
-  console.log('isValid', neighbors, key)
+  if (R.not(truePath.length))
+    return state
 
-  return isValid(dst)
-    ? finish(state, key)
-    : state
+  if (jumps.length)
+    return jump.finishHim(state, truePath)
+
+  if (unoccupied)
+    return finish(state, key)
 }
 
 const finish = (state, dst) => {

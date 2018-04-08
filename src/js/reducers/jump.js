@@ -5,20 +5,22 @@ const get = state => {
   const list = Object.keys(state.board).map(k => state.board[k])
 
   return R.compose(
-    R.filter(groom(state.color)),
+    R.filter(groom),
+    R.unnest,
     R.map(getJumps(state.board)),
-    R.filter(sq => sq.man && sq.man.color === state.color)
+    R.filter(R.pathEq(['man', 'color'], state.color))
   )(list)
 }
 
-const groom = R.curry((color, list) => {
-  if (list.length < 3 || !list[1].man) return false
+const groom = list => {
+  const colors = R.compose(
+    R.dropRepeats,
+    R.map(R.prop('color')),
+    R.pluck('man')
+  )(list)
 
-  const sq2isEnemy = list[1].man.color !== color,
-    sq3isEmpty = !list[2].man
-
-  return (sq2isEnemy && sq3isEmpty)
-})
+  return (colors.length === 3 && !colors[2])
+}
 
 const kill = (state, jumps, dst) => {
   const src = state.active.key,
@@ -49,5 +51,6 @@ const finishHim = (state, path) => {
 
 export default {
   get,
-  kill
+  kill,
+  finishHim
 }
