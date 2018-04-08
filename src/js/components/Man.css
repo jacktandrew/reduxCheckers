@@ -4,7 +4,15 @@
   margin: 10%;
   border-radius: 50%;
   border: 1px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  line-height: 4rem;
+  color: yellow;
 }
+
+.man[data-color="white"] { color: blueviolet }
 
 .man.selected {
   box-shadow: yellow 0 0 11px 7px;

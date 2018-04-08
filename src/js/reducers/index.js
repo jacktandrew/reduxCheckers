@@ -4,12 +4,13 @@ import move from './move'
 import jump from './jump'
 import ai from './ai'
 import { getMoves, getJumps } from './utils'
+import { checkForVictory, endGame } from './endGame'
 const R = require('ramda')
 window.R = R
 
 const initialState = {
   color: 'black',
-  board: createBoard(8)
+  board: createBoard(6)
 }
 
 const handlePickUp = (state, key) => {
@@ -28,15 +29,14 @@ const handlePickUp = (state, key) => {
 const handlePutDown = (state, key) => {
   if (!state.active) return state
 
-  const state2 = move.handle(state, key)
-  // const jumps = jump.get(state),
-  //   state2 = (jumps.length)
-  //     ? jump.kill(state, jumps, key)
-  //     : move.handle(state, key)
+  const newState = move.handle(state, key)
 
-  return (state2.color === 'white')
-    ? ai.play(state2)
-    : state2
+  if (checkForVictory(newState))
+    return endGame(newState)
+
+  return (newState.color === 'white')
+    ? ai.play(newState)
+    : newState
 }
 
 const rootReducer = (state = initialState, action) => {

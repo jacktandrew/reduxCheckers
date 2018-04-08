@@ -16,3 +16,4 @@ test('getAllMoves should return all valid moves', () => {
 
   expect(sorted).toEqual([17, 18, 19, 20])
 })
+

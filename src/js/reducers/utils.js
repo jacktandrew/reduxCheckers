@@ -1,4 +1,5 @@
 const R = require('ramda')
+import { shouldHeBeKing } from './king'
 
 export const deepMap = R.curry((fn, data) => R.map(R.map(fn), data))
 
@@ -31,4 +32,16 @@ export const getNeighbors = R.curry((board, sq) => R.compose(
   getMoves(board)
 )(sq))
 
+export const finish = (state, dst) => {
+  const src = state.active.key,
+    man = shouldHeBeKing(state, dst),
+    board = R.compose(
+      R.assocPath([dst, 'man'], man),
+      R.dissocPath([src, 'man']),
+      R.dissocPath([src, 'selected'])
+    )(state.board),
+    color = (state.color === 'black') ? 'white' : 'black'
 
+  return { board, color }
+
+}

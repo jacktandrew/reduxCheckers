@@ -1,5 +1,6 @@
 const R = require('ramda')
 import { getMoves, getJumps } from './utils'
+import { shouldHeBeKing } from './king'
 
 const get = state => {
   const list = Object.keys(state.board).map(k => state.board[k])
@@ -17,29 +18,18 @@ const groom = list => {
     R.dropRepeats,
     R.map(R.prop('color')),
     R.pluck('man')
-  )(list)
+  )(list.filter(sq => sq))
 
   return (colors.length === 3 && !colors[2])
 }
 
-const kill = (state, jumps, dst) => {
-  const src = state.active.key,
-    match = R.filter(R.both(
-      R.compose(R.propEq('key', src), R.head),
-      R.compose(R.propEq('key', dst), R.last)
-    ), jumps)
-
-  return (R.not(R.isEmpty(match)))
-    ? finishHim(state, R.head(match))
-    : state
-}
-
-const finishHim = (state, path) => {
+const kill = (state, path) => {
   const src = path[0].key,
     kill = path[1].key,
     dst = path[2].key,
+    man = shouldHeBeKing(state, dst),
     board = R.compose(
-      R.assocPath([dst, 'man'], state.active.man),
+      R.assocPath([dst, 'man'], man),
       R.dissocPath([kill, 'man']),
       R.dissocPath([src, 'man']),
       R.dissocPath([src, 'selected'])
@@ -51,6 +41,5 @@ const finishHim = (state, path) => {
 
 export default {
   get,
-  kill,
-  finishHim
+  kill
 }

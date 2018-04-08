@@ -14,3 +14,14 @@
 .square.highlighted {
   box-shadow: yellow 0 0 0 7px inset;
 }
+
+.board .gameOver {
+  position: absolute;
+  text-align: center;
+  background-color: firebrick;
+  padding: 4rem 0;
+  font-size: 5rem;
+  width: 100%;
+  top: 30%;
+  z-index: 1;
+}

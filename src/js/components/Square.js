@@ -42,6 +42,7 @@ class Square extends Component {
             : ''}
           {(man)
             ? <Man selected={this.props.selected}
+                    isKing={man.isKing}
                     color={man.color}
                     directions={man.directions} />
             : '' }

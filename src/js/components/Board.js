@@ -9,13 +9,20 @@ const mapStateToProps = state => {
       R.ascend(R.prop('row')),
       R.ascend(R.prop('column'))
     ], list)
-  return { squares }
+
+  return { squares, gameOver: state.gameOver }
 }
 
 class Board extends React.Component {
   render() {
     return (
       <section className="board">
+        {(this.props.gameOver)
+          ? <section className="gameOver">
+              {this.props.gameOver}
+            </section>
+          : ''}
+
         {this.props.squares.map((sq, i) => (
           <Square key={i}
             size={Math.sqrt(this.props.squares.length)}

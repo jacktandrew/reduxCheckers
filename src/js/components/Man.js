@@ -19,13 +19,15 @@ class Men extends Component {
   render() {
     const className = (this.props.selected)
       ? 'man selected'
-      : 'man';
+      : 'man'
+
     return (
       <section className={className}
         data-directions={JSON.stringify(this.props.directions)}
         data-color={this.props.color}
         style={{ backgroundColor: this.props.color }}
         onClick={this.handleClick}>
+          {this.props.isKing ? '♔' : ''}
       </section>
     )
   }
