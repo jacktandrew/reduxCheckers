@@ -1,8 +1,10 @@
-.game, .board {
+#checkers, .game {
   height: 100%;
 }
 
 .board {
+  width: 800px;
+  height: 800px;
   display: flex;
   flex-wrap: wrap;
 }
