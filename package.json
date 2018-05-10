@@ -12,7 +12,13 @@
     "type": "git",
     "url": "git+https://github.com/jacktandrew/reduxCheckers.git"
   },
-  "keywords": ["React", "Redux", "Ramda", "Jest", "Checkers"],
+  "keywords": [
+    "React",
+    "Redux",
+    "Ramda",
+    "Jest",
+    "Checkers"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {

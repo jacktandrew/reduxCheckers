@@ -10,7 +10,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-class Men extends Component {
+class Man extends Component {
   handleClick = event => {
     event.stopPropagation()
     this.props.pickUp(`${event.target.parentElement.dataset.key}`)
@@ -33,4 +33,4 @@ class Men extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Men)
+export default connect(null, mapDispatchToProps)(Man)

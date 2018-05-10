@@ -1,19 +1,36 @@
 const R = require('ramda')
+import { getAllMoves } from './utils'
 
-export const endGame = state => {
-  const color = state.color === 'black' ? 'white' : 'black'
-  return {
-    ...state,
-    gameOver: `Game over, ${color} wins!`
-  }
+const checkForStalemate = state => {
+  const allMoves = getAllMoves(state),
+    newState = {
+      ...state,
+      gameOver: 'Game over, stalemate...'
+    }
+  console.log('allMoves', allMoves)
+  return (allMoves.length) ? false : newState
 }
 
-export const checkForVictory = state => {
-  const colors = R.compose(
-    R.filter(R.is(String)),
-    R.values,
-    R.map(R.path(['man', 'color']))
-  )(state.board)
+const checkForVictory = state => {
+  const color = state.color === 'black' ? 'white' : 'black',
+    men = R.compose(
+      R.filter(R.is(String)),
+      R.values,
+      R.map(R.path(['man', 'color']))
+    )(state.board),
+    newState = {
+      ...state,
+      gameOver: `Game over, ${color} wins!`
+    },
+    isOver = R.not(R.contains(state.color, men))
 
-  return R.not(R.contains(state.color, colors))
+  return (isOver) ? newState : false
+}
+
+export const checkEndGame = state => {
+  const isVictory = checkForVictory(state),
+    isStalemate = checkForStalemate(state)
+
+  if (isVictory) return isVictory
+  if (isStalemate) return isStalemate
 }

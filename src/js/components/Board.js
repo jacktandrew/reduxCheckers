@@ -13,7 +13,7 @@ const mapStateToProps = state => {
   return { squares, gameOver: state.gameOver }
 }
 
-class Board extends React.Component {
+class Board extends Component {
   render() {
     return (
       <section className="board">

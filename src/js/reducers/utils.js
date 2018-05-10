@@ -43,5 +43,17 @@ export const finish = (state, dst) => {
     color = (state.color === 'black') ? 'white' : 'black'
 
   return { board, color }
-
 }
+
+export const getAllMoves = state => {
+  const list = Object.keys(state.board).map(k => state.board[k]),
+    hasNoMan = R.compose(R.isNil, R.prop('man'))
+    return R.compose(
+      R.filter(R.compose(hasNoMan, R.last)),
+      R.unnest,
+      R.map(getMoves(state.board)),
+      R.filter(R.pathEq(['man', 'color'], state.color))
+    )(list)
+}
+
+

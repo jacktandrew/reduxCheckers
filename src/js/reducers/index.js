@@ -4,7 +4,7 @@ import move from './move'
 import jump from './jump'
 import ai from './ai'
 import { getMoves, getJumps } from './utils'
-import { checkForVictory, endGame } from './endGame'
+import { checkEndGame } from './endGame'
 const R = require('ramda')
 window.R = R
 
@@ -29,10 +29,10 @@ const handlePickUp = (state, key) => {
 const handlePutDown = (state, key) => {
   if (!state.active) return state
 
-  const newState = move.handle(state, key)
+  const newState = move.handle(state, key),
+    gameOver = checkEndGame(newState)
 
-  if (checkForVictory(newState))
-    return endGame(newState)
+  if (gameOver) return gameOver
 
   return (newState.color === 'white')
     ? ai.play(newState)
